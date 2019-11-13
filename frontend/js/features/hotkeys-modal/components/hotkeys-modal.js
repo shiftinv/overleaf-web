@@ -92,6 +92,10 @@ export default function HotkeysModal({
               combination={`${ctrl} + A`}
               description={t('hotkey_select_all')}
             />
+            <Hotkey
+              combination={`${ctrl} + M`}
+              description="Inline Math Mode"
+            />
           </Col>
 
           <Col xs={4}>
@@ -106,6 +110,10 @@ export default function HotkeysModal({
             <Hotkey
               combination="Tab"
               description={t('hotkey_indent_selection')}
+            />
+            <Hotkey
+              combination={`${ctrl} + Shift + M`}
+              description="Display Math Mode"
             />
           </Col>
 

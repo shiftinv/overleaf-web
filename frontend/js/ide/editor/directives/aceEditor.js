@@ -299,6 +299,46 @@ App.directive(
           readOnly: true,
         })
 
+        // Inline Math Mode on CMD+M
+        editor.commands.addCommand({
+          name: 'mathmodeinline',
+          bindKey: {
+            win: 'Ctrl-M',
+            mac: 'Command-M',
+          },
+          exec(editor) {
+            const selection = editor.getSelection()
+            if (selection.isEmpty()) {
+              editor.insert('\\(\\)')
+              return editor.navigateLeft(2)
+            } else {
+              const text = editor.getCopyText()
+              return editor.insert(`\\(${text}\\)`)
+            }
+          },
+          readOnly: false,
+        })
+
+        // Display Math Mode on CMD+Shift+M
+        editor.commands.addCommand({
+          name: 'mathmodedisplay',
+          bindKey: {
+            win: 'Ctrl-Shift-M',
+            mac: 'Command-Shift-M',
+          },
+          exec(editor) {
+            const selection = editor.getSelection()
+            if (selection.isEmpty()) {
+              editor.insert('\\[\\]')
+              return editor.navigateLeft(2)
+            } else {
+              const text = editor.getCopyText()
+              return editor.insert(`\\[${text}\\]`)
+            }
+          },
+          readOnly: false,
+        })
+
         // Bold text on CMD+B
         editor.commands.addCommand({
           name: 'bold',
