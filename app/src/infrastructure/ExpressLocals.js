@@ -303,6 +303,7 @@ module.exports = function (webRouter, privateApiRouter, publicApiRouter) {
       res.locals.nav[key] = _.clone(Settings.nav[key])
     }
     res.locals.templates = Settings.templateLinks
+    res.locals.customTemplates = Settings.customTemplates
     next()
   })
 

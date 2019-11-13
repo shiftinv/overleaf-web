@@ -40,13 +40,16 @@
 
 
 
-		if (templates)
-			//- templates is an express local var, via settings.templateLinks
+		if (customTemplates)
+			//- customTemplates is an express local var, via settings.customTemplates
 			li.divider
 			li.dropdown-header #{translate("templates")}
-			each item in templates
+			each item, name in customTemplates
 				li
-					a.menu-indent(href=item.url) #{translate(item.name)}
+					a.menu-indent(
+						href,
+						ng-click="openCreateProjectModal('" + name + "')"
+					) #{translate(name)}
 
 .row-spaced(ng-if="projects.length > 0", ng-cloak)
 	ul.list-unstyled.folders-menu(
@@ -83,7 +86,7 @@
 					ng-style="{ 'color': 'hsl({{ getHueForTagId(tag._id) }}, 70%, 45%)' }"
 					aria-hidden="true"
 				)
-				span.name {{tag.name}} 
+				span.name {{tag.name}}
 					span.subdued  ({{countProjectsForTag(tag)}})
 
 			span.dropdown.tag-menu(dropdown)
@@ -108,7 +111,7 @@
 			ng-cloak,
 			ng-click="selectUntagged()"
 			ng-class="{active: filter === 'untagged'}",
-		) 	
+		)
 			a.tag-name(href)
 				span.name
 					| #{translate("uncategorized")}
@@ -129,7 +132,7 @@ if (isOverleaf)
 				hr
 				.text-centered.user-profile
 					p Are you affiliated with an institution?
-					
+
 					a.btn.btn-info(
 						href="/user/settings"
 					) Add Affiliation
@@ -140,7 +143,7 @@ if (isOverleaf)
 		//- 	p
 		//- 		a(href="/user/subscription/plans" ng-click="upgradeSubscription()").btn.btn-primary #{translate("upgrade")}
 		//- 	p.small.text-centered
-		//- 		| #{translate("or_unlock_features_bonus")} 
+		//- 		| #{translate("or_unlock_features_bonus")}
 		//- 		a(href="/user/bonus" ng-click="share()") #{translate("sharing_sl")}.
 		.row-spaced(ng-if="hasProjects && userHasNoSubscription && !userOnPayingUniversity", ng-cloak).text-centered
 			hr

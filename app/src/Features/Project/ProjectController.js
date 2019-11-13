@@ -293,8 +293,8 @@ const ProjectController = {
     async.waterfall(
       [
         cb => {
-          if (template === 'example') {
-            ProjectCreationHandler.createExampleProject(userId, projectName, cb)
+          if (template && template !== 'none') {
+            ProjectCreationHandler.createTemplateProject(userId, projectName, template, cb)
           } else {
             ProjectCreationHandler.createBasicProject(userId, projectName, cb)
           }

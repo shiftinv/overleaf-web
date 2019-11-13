@@ -3,7 +3,7 @@
 		.card.card-thin
 			div.welcome.text-centered(ng-cloak)
 				h2 #{translate("welcome_to_sl")}
-				p #{translate("new_to_latex_look_at")} 
+				p #{translate("new_to_latex_look_at")}
 					a(href="/templates") #{translate("templates").toLowerCase()}
 					|   #{translate("or")}
 					a(href="/learn")  #{translate("latex_help_guide")}
@@ -36,11 +36,13 @@
 										ng-click="openUploadProjectModal()"
 									) #{translate("upload_project")}
 								!= moduleIncludes("newProjectMenu", locals)
-								if (templates)
+								if (customTemplates)
 									li.divider
 									li.dropdown-header #{translate("templates")}
-									each item in templates
+									each item, name in customTemplates
 										li
-											a.menu-indent(href=item.url) #{translate(item.name)}
+											a.menu-indent(
+												href,
+												ng-click="openCreateProjectModal('" + name + "')"
+											) #{translate(name)}
 
-							

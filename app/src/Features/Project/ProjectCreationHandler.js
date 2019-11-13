@@ -68,98 +68,59 @@ async function createBasicProject(ownerId, projectName) {
   return project
 }
 
-async function createExampleProject(ownerId, projectName) {
+async function createTemplateProject(ownerId, projectName, template) {
   const project = await _createBlankProject(ownerId, projectName)
 
-  const testSegmentation = await SplitTestHandler.promises.getTestSegmentation(
-    ownerId,
-    EXAMPLE_PROJECT_SPLITTEST_ID
-  )
-
-  if (testSegmentation.variant === 'example-frog') {
-    await _addSplitTestExampleProjectFiles(ownerId, projectName, project)
+  // get template data
+  let templateData
+  if (template == 'example') {
+    templateData = {
+      path: 'example/',
+      templateFiles: ['main.tex'],
+      staticFiles: ['references.bib', 'universe.jpg'],
+    }
   } else {
-    await _addDefaultExampleProjectFiles(ownerId, projectName, project)
+    templateData = Settings.customTemplates[template]
   }
 
-  if (testSegmentation.enabled) {
-    AnalyticsManager.recordEvent(ownerId, 'project-created', {
-      projectId: project._id,
-      splitTestId: EXAMPLE_PROJECT_SPLITTEST_ID,
-      splitTestVariantId: testSegmentation.variant,
-    })
-  } else {
-    AnalyticsManager.recordEvent(ownerId, 'project-created', {
-      projectId: project._id,
-    })
+  // create project files
+  if (templateData.templateFiles) {
+    for (const [index, fileName] of templateData.templateFiles.entries()) {
+      const docLines = await _buildTemplate(path.join(templateData.path, fileName), ownerId, projectName)
+
+      if (index === 0)
+        await _createRootDoc(project, ownerId, docLines);
+      else
+        await ProjectEntityUpdateHandler.promises.addDoc(
+          project._id,
+          project.rootFolder[0]._id,
+          fileName,
+          docLines,
+          ownerId,
+        )
+    }
   }
+  if (templateData.staticFiles) {
+    for (const fileName of templateData.staticFiles) {
+      await ProjectEntityUpdateHandler.promises.addFile(
+        project._id,
+        project.rootFolder[0]._id,
+        fileName,
+        path.resolve(
+          __dirname + `/../../../templates/${path.join(templateData.path, fileName)}`
+        ),
+        null,
+        ownerId,
+      )
+    }
+  }
+
+
+  AnalyticsManager.recordEvent(ownerId, 'project-created', {
+    projectId: project._id,
+  })
 
   return project
-}
-
-async function _addDefaultExampleProjectFiles(ownerId, projectName, project) {
-  const mainDocLines = await _buildTemplate('main.tex', ownerId, projectName)
-  await _createRootDoc(project, ownerId, mainDocLines)
-
-  const referenceDocLines = await _buildTemplate(
-    'references.bib',
-    ownerId,
-    projectName
-  )
-  await ProjectEntityUpdateHandler.promises.addDoc(
-    project._id,
-    project.rootFolder[0]._id,
-    'references.bib',
-    referenceDocLines,
-    ownerId
-  )
-
-  const universePath = path.resolve(
-    __dirname + '/../../../templates/project_files/universe.jpg'
-  )
-  await ProjectEntityUpdateHandler.promises.addFile(
-    project._id,
-    project.rootFolder[0]._id,
-    'universe.jpg',
-    universePath,
-    null,
-    ownerId
-  )
-}
-
-async function _addSplitTestExampleProjectFiles(ownerId, projectName, project) {
-  const mainDocLines = await _buildTemplate(
-    'test-example-project/main.tex',
-    ownerId,
-    projectName
-  )
-  await _createRootDoc(project, ownerId, mainDocLines)
-
-  const bibDocLines = await _buildTemplate(
-    'test-example-project/sample.bib',
-    ownerId,
-    projectName
-  )
-  await ProjectEntityUpdateHandler.promises.addDoc(
-    project._id,
-    project.rootFolder[0]._id,
-    'sample.bib',
-    bibDocLines,
-    ownerId
-  )
-
-  const frogPath = path.resolve(
-    __dirname +
-      '/../../../templates/project_files/test-example-project/frog.jpg'
-  )
-  await ProjectEntityUpdateHandler.promises.addFile(
-    project._id,
-    project.rootFolder[0]._id,
-    'frog.jpg',
-    frogPath,
-    null,
-    ownerId
-  )
 }
 
 async function _createBlankProject(ownerId, projectName, attributes = {}) {
@@ -211,11 +172,11 @@ async function _createRootDoc(project, ownerId, docLines) {
   }
 }
 
-async function _buildTemplate(templateName, userId, projectName) {
+async function _buildTemplate(filePath, userId, projectName) {
   const user = await User.findById(userId, 'first_name last_name')
 
   const templatePath = path.resolve(
-    __dirname + `/../../../templates/project_files/${templateName}`
+    __dirname + `/../../../templates/${filePath}`
   )
   const template = fs.readFileSync(templatePath)
   const data = {
@@ -232,12 +193,12 @@ module.exports = {
   createBlankProject: callbackify(createBlankProject),
   createProjectFromSnippet: callbackify(createProjectFromSnippet),
   createBasicProject: callbackify(createBasicProject),
-  createExampleProject: callbackify(createExampleProject),
+  createTemplateProject: callbackify(createTemplateProject),
   promises: {
     createBlankProject,
     createProjectFromSnippet,
     createBasicProject,
-    createExampleProject,
+    createTemplateProject,
   },
 }
 

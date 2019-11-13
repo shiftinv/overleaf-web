@@ -832,13 +832,13 @@ module.exports = {
   //		rejectUnauthorized: false
   //		ca: ['/etc/ldap/ca_certs.pem']
 
-  // templateLinks: [{
-  //	name : "CV projects",
-  //	url : "/templates/cv"
-  // },{
-  //	name : "all projects",
-  //	url: "/templates/all"
-  // }]
+  // customTemplates: {
+  //   "Template 1": {
+  //     "path": "template1/",
+  //     "templateFiles": ["main.tex", "header.tex"],
+  //     "staticFiles": ["example.jpg"]
+  //   }
+  // },
 
   rateLimit: {
     autoCompile: {
