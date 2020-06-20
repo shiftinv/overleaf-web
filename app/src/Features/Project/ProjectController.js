@@ -1080,7 +1080,7 @@ var defaultSettingsForAnonymousUser = userId => ({
   id: userId,
   ace: {
     mode: 'none',
-    theme: 'textmate',
+    theme: 'monokai',
     fontSize: '12',
     autoComplete: true,
     spellCheckLanguage: '',
