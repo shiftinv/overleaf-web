@@ -15,7 +15,7 @@ block content
 		.loading-screen(ng-if="state.loading")
 			.loading-screen-brand-container
 				.loading-screen-brand(
-					style="height: 20%;"
+					style="height: 20%; left: 10%;"
 					ng-style="{ 'height': state.load_progress + '%' }"
 				)
 			h3.loading-screen-label(ng-if="!state.error") #{translate("loading")}

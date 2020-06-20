@@ -95,6 +95,6 @@ block append foot-scripts
 	script(type="text/javascript", nonce=scriptNonce).
 		$(document).ready(function () {
 			setTimeout(function() {
-				$('.loading-screen-brand').css('height', '20%')
+				$('.loading-screen-brand').css({'height': '20%', 'left': '10%'})
 			}, 500);
 		});
