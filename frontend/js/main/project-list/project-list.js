@@ -483,8 +483,7 @@ App.controller('ProjectPageController', function (
       })
       .then(() => (project.name = newName))
 
-  $scope.openRenameProjectModal = function () {
-    const project = $scope.getFirstSelectedProject()
+  $scope.openRenameProjectModal = function(project) {
     if (!project || project.accessLevel !== 'owner') {
       return
     }
@@ -874,6 +873,11 @@ App.controller(
     $scope.clone = function (e) {
       e.stopPropagation()
       $scope.openCloneProjectModal($scope.project)
+    }
+
+    $scope.rename = function(e) {
+      e.stopPropagation()
+      $scope.openRenameProjectModal($scope.project)
     }
 
     $scope.download = function (e) {

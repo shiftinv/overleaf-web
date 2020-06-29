@@ -64,6 +64,15 @@ td.project-list-table-lastupdated-cell
 td.project-list-table-actions-cell
 	div
 		button.btn.btn-link.action-btn(
+			ng-if="!project.trashed && !project.archived && isOwner()",
+			aria-label=translate('rename'),
+			tooltip=translate('rename'),
+			tooltip-placement="top",
+			tooltip-append-to-body="true",
+			ng-click="rename($event)"
+		)
+			i.icon.fa.fa-pencil(aria-hidden="true")
+		button.btn.btn-link.action-btn(
 			ng-if="!(project.archived || project.trashed)"
 			aria-label=translate('copy'),
 			tooltip=translate('copy'),

@@ -108,7 +108,7 @@
 						li(ng-show="getFirstSelectedProject().accessLevel == 'owner'")
 							a(
 								href,
-								ng-click="openRenameProjectModal()"
+								ng-click="openRenameProjectModal(getFirstSelectedProject())"
 							) #{translate("rename")}
 						li
 							a(
