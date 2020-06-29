@@ -264,8 +264,26 @@ module.exports = CompileController = {
   },
 
   _getSafeProjectName(project) {
-    const wordRegExp = /\W/g
-    const safeProjectName = project.name.replace(wordRegExp, '_')
+    const umlautMap = {
+      '\u00dc': 'UE',
+      '\u00c4': 'AE',
+      '\u00d6': 'OE',
+      '\u00fc': 'ue',
+      '\u00e4': 'ae',
+      '\u00f6': 'oe',
+      '\u00df': 'ss',
+    }
+    let safeProjectName = project.name
+      .replace(/[\u00dc|\u00c4|\u00d6][a-z]/g, a => {
+        const repl = umlautMap[a.slice(0, 1)]
+        return repl.charAt(0) + repl.charAt(1).toLowerCase() + a.slice(1)
+      })
+      .replace(
+        new RegExp('[' + Object.keys(umlautMap).join('|') + ']', 'g'),
+        a => umlautMap[a]
+      )
+
+    safeProjectName = safeProjectName.replace(/\W/g, '_')
     return sanitize.escape(safeProjectName)
   },
 
