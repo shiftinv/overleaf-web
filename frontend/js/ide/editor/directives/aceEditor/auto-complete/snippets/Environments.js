@@ -11,6 +11,8 @@ const envs = [
   'gather',
   'gather*',
   'gathered',
+  'flalign',
+  'flalign*',
   'multline',
   'multline*',
   'split',
