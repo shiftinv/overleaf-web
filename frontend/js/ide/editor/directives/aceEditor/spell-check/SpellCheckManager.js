@@ -333,7 +333,9 @@ class SpellCheckManager {
   apiRequest(endpoint, data, callback) {
     if (callback == null) {
       callback = function (error, result) {
-        console.error(error)
+        if (error) {
+          console.error(error)
+        }
       }
     }
     data.token = window.user.id
