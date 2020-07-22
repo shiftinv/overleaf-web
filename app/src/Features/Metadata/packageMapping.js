@@ -3894,18 +3894,6 @@ module.exports = {
       score: 0.0001113322912630871,
     },
     {
-      caption: '\\setenumerate[]{}',
-      snippet: '\\setenumerate[$1]{$2}',
-      meta: 'enumitem-cmd',
-      score: 7.437178301071255e-5,
-    },
-    {
-      caption: '\\setenumerate{}',
-      snippet: '\\setenumerate{$1}',
-      meta: 'enumitem-cmd',
-      score: 7.437178301071255e-5,
-    },
-    {
       caption: '\\renewlist{}{}{}',
       snippet: '\\renewlist{$1}{$2}{$3}',
       meta: 'enumitem-cmd',
@@ -3922,12 +3910,6 @@ module.exports = {
       snippet: '\\noexpand',
       meta: 'enumitem-cmd',
       score: 0.00530510025314411,
-    },
-    {
-      caption: '\\setitemize[]{}',
-      snippet: '\\setitemize[$1]{$2}',
-      meta: 'enumitem-cmd',
-      score: 0.0019580640711971786,
     },
     {
       caption: '\\csname',
