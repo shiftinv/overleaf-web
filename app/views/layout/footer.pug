@@ -4,7 +4,7 @@ footer.site-footer
 	.site-footer-content.hidden-print
 		.row
 			ul.col-md-9
-				
+
 				if Object.keys(settings.i18n.subdomainLang).length > 1
 					li.dropdown.dropup.subdued(dropdown)
 						a.dropdown-toggle(
@@ -30,7 +30,7 @@ footer.site-footer
 				each item in nav.left_footer
 					li
 						if item.url
-							a(href=item.url, class=item.class) !{translate(item.text)}
+							a(href=item.url, class=item.class) !{item.text}
 						else
 							| !{item.text}
 
