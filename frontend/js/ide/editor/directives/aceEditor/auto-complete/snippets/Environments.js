@@ -19,6 +19,12 @@ const envs = [
   'verbatim',
   'quote',
   'center',
+  'matrix',
+  'bmatrix',
+  'Bmatrix',
+  'pmatrix',
+  'vmatrix',
+  'Vmatrix',
 ]
 
 const envsWithSnippets = [
